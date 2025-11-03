@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iot-sensor-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iot-sensor-api
+  template:
+    metadata:
+      labels:
+        app: iot-sensor-api
+    spec:
+      containers:
+      - name: iot-sensor-api
+        image: snehapadgaonkar/iot-sensor-api:latest
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iot-sensor-service
+spec:
+  selector:
+    app: iot-sensor-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  type: LoadBalancer
