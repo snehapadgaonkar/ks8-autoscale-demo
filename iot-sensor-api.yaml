@@ -16,14 +16,14 @@ spec:
       - name: iot-sensor-api
         image: snehapadgaonkar/iot-sensor-api:latest
         ports:
-        - containerPort: 5000
+        - containerPort: 80
         resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
           limits:
-            cpu: 200m
-            memory: 256Mi
+            cpu: "200m"
+            memory: "256Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
 ---
 apiVersion: v1
 kind: Service
@@ -33,7 +33,6 @@ spec:
   selector:
     app: iot-sensor-api
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 5000
+  - port: 80
+    targetPort: 80
   type: LoadBalancer
